@@ -1,0 +1,4 @@
+# Only needed for the SDK providers. The HTTP providers use the standard library only.
+google-genai
+anthropic
+openai

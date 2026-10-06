@@ -1,0 +1,9 @@
+# Secret settings (API keys) - never commit
+.env
+
+# Files created when the program runs
+data/
+
+# Python cache
+__pycache__/
+*.pyc
