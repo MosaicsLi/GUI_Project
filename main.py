@@ -1,11 +1,17 @@
 # main.py - Entry point of the program
 #
-# PLACEHOLDER: this file is not implemented yet.
-#
-# How to run (after the program is finished):
+# How to run:
 #   C:\Users\tamak\Documents\VSC\KIC\python\.venv\Scripts\python.exe main.py
-#
-# Planned steps:
-#   1. load_env(".env")   - read the settings
-#   2. App()              - build the window
-#   3. app.run()          - start the GUI
+
+from app import App
+
+
+def main():
+    """Build the window and start the GUI."""
+    app = App()
+    app.run()
+
+
+# This part only runs when the file is started directly, not when it is imported.
+if __name__ == "__main__":
+    main()

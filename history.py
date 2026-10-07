@@ -3,8 +3,9 @@
 # The records never contain the API key or the Base URL.
 #
 # Assignment requirements covered in this file:
-#   [REQ: file I/O]    HistoryStore.load(), save(), export_csv()
+#   [REQ: file I/O]    HistoryStore.load(), save(), export_csv(), backup_broken_file()
 #   [REQ: for]         load(), save(), export_csv(), stats_by_provider()
+#   [REQ: while]       backup_broken_file()
 #   [REQ: if-else]     stats_by_provider()
 #   [REQ: list/dict]   HistoryStore.records, ChatRecord.to_dict(), the result of stats_by_provider()
 #   [REQ: class]       ChatRecord, HistoryStore
@@ -106,6 +107,29 @@ class HistoryStore:
         except (KeyError, TypeError, ValueError):
             raise StorageError("The history file has an unexpected format: " + self.path)
         self.records = records
+
+    def backup_broken_file(self):
+        """Rename a broken history file to ".bak" and return the new path.
+
+        The broken file is kept, so the user can still open it and rescue the text.
+        After this the program can start again with an empty history.
+        """
+        backup_path = self.path + ".bak"
+        number = 2
+        # [REQ: while] Never overwrite an older backup: try ".bak", ".bak2", ".bak3", ...
+        # until a name is free.
+        while os.path.exists(backup_path):
+            backup_path = self.path + ".bak" + str(number)
+            number = number + 1
+
+        # [REQ: file I/O] [REQ: exception] os.rename gives the file its new name.
+        try:
+            os.rename(self.path, backup_path)
+        except OSError as error:
+            raise StorageError("Cannot rename the broken history file: " + str(error))
+
+        self.records = []
+        return backup_path
 
     def save(self):
         """Write all the records to the JSON file."""
