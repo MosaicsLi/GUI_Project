@@ -22,12 +22,12 @@ class LLMError(Exception):
 
 # [REQ: class] Subclass of LLMError with its own attribute and its own method.
 class MissingKeyError(LLMError):
-    """The API key was not found in the environment variables."""
+    """The provider needs an API key but the API Key field is empty."""
 
-    def __init__(self, env_name):
-        super().__init__("API key not found. Please set the environment variable: " + env_name)
-        # env_name: name of the environment variable that is missing
-        self.env_name = env_name
+    def __init__(self, provider_name):
+        super().__init__(provider_name + " needs an API key. Please type it in the API Key field.")
+        # provider_name: name of the provider that needs the key
+        self.provider_name = provider_name
 
     def get_title(self):
         """Return the title of the error dialog."""
@@ -68,7 +68,7 @@ class SdkMissingError(LLMError):
 
 # [REQ: class] Subclass of LLMError.
 class ConfigError(LLMError):
-    """The ".env" file does not exist or a setting is missing."""
+    """The ".env" file cannot be read or cannot be saved."""
 
     def get_title(self):
         """Return the title of the error dialog."""
