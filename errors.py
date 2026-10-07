@@ -1,7 +1,7 @@
 # errors.py - Custom exceptions used by the whole program
 #
 # Assignment requirements covered in this file:
-#   [REQ: class]      LLMError is the parent class, the other six classes inherit from it
+#   [REQ: class]      LLMError is the parent class, the other seven classes inherit from it
 #   [REQ: exception]  These classes are raised and caught in providers.py and app.py
 
 
@@ -84,6 +84,15 @@ class SdkMissingError(LLMError):
     def get_title(self):
         """Return the title of the error dialog."""
         return "SDK Not Installed"
+
+
+# [REQ: class] Subclass of LLMError.
+class StorageError(LLMError):
+    """The history file or the CSV file cannot be read or cannot be saved."""
+
+    def get_title(self):
+        """Return the title of the error dialog."""
+        return "File Error"
 
 
 # [REQ: class] Subclass of LLMError.
